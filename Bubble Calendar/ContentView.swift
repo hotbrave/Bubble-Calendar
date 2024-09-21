@@ -51,7 +51,7 @@ struct ContentView: View {
                                                     if Calendar.current.isDateInToday(date) {
                                                         VStack {
                                                             Text(getDay(date: date))
-                                                                .font(.headline)
+                                                                .font(.title2)
                                                                 .foregroundColor(.white)
                                                                 .frame(width: 35, height: 35)
                                                                 .background(Color.red)
@@ -68,7 +68,7 @@ struct ContentView: View {
                                                     } else {
                                                         VStack {
                                                             Text(getDay(date: date))
-                                                                .font(.headline)
+                                                                .font(.title2)
                                                                 .foregroundColor(isWeekend(date: date) ? .gray : .primary)  // 修改为周末灰色
                                                                 .frame(width: 35, height: 35)
                                                                 .background(Color.clear)
@@ -140,11 +140,13 @@ struct ContentView: View {
                     }
                 }) {
                     
-                    Text("today")
+                    Text("Today")
                         .padding()
-                        .background(Color.blue)
+                        .background(Color.green)
                         .foregroundColor(.white)
+                        .clipShape(Circle()) // 使按钮为圆形
                         .cornerRadius(10)
+                        .shadow(radius: 5) // 添加阴影
                 }
             }
 
