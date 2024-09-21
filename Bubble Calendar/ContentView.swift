@@ -23,7 +23,7 @@ struct ContentView: View {
                     Text(getWeekdaySymbol(for: index))
                         .font(.headline)
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(index == 0 ? .red : .primary) // 周日标为红色
+                        .foregroundColor(index == 0 || index == 6 ? .red : .primary) // 周日标为红色
                 }
             }
             .padding(20)
@@ -69,7 +69,7 @@ struct ContentView: View {
                                                         VStack {
                                                             Text(getDay(date: date))
                                                                 .font(.headline)
-                                                                .foregroundColor(.primary)
+                                                                .foregroundColor(isWeekend(date: date) ? .gray : .primary)  // 修改为周末灰色
                                                                 .frame(width: 35, height: 35)
                                                                 .background(Color.clear)
 
@@ -302,6 +302,13 @@ struct ContentView: View {
         let month = calendar.component(.month, from: date)
         return "\(year)\(String(format: "%02d", month))"  // 返回类似 "202409" 这样的 ID
     }
+    
+    // 检查是否是周末
+    func isWeekend(date: Date) -> Bool {
+        let weekday = Calendar.current.component(.weekday, from: date)
+        return weekday == 1 || weekday == 7 // 周日和周六
+    }
+    
     // 更新 today 变量为当前日期
     func updateToday() {
         today = Date()
