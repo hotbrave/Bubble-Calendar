@@ -9,7 +9,7 @@ struct ContentView: View {
     @State private var items: [Date] = []  // 存储要显示的日期
     @State private var scrollViewProxy: ScrollViewProxy? = nil  // 用于滚动到特定位置
     @State private var today = Date()  // 当前日期
-    @State private var isFirstLaunch = true  // 标记是否是首次启动
+    @State private var isShowChineseCalendar = false  // 标记是否是首次启动
     
     @Environment(\.scenePhase) var scenePhase // 监听应用的场景状态
 
@@ -36,7 +36,7 @@ struct ContentView: View {
                             if let firstDate = monthDates.first {
                                 VStack(alignment: .leading) {
                                     // 显示月份标题，左对齐
-                                    Text("\(getYearTitle(date: firstDate))年 \(getMonthTitle(date: firstDate))")
+                                    Text("\(getYearTitle(date: firstDate))/ \(getMonthTitle(date: firstDate))")
                                         .font(.title3)
                                         .bold()
                                         .padding(.vertical, 10)
@@ -58,11 +58,12 @@ struct ContentView: View {
                                                                 .cornerRadius(5)
                                                                 .id("today")  // 给当天日期设置 ID
                                                             let _ = print("today is ready")
-
-                                                            // 显示农历日期
-                                                            Text(getChineseLunarDay(for: date, showMonth: isFirstDayOfChineseMonth(date)))
-                                                                .font(.caption)
-                                                                .foregroundColor(.gray)
+                                                            if isShowChineseCalendar {
+                                                                // 显示农历日期
+                                                                Text(getChineseLunarDay(for: date, showMonth: isFirstDayOfChineseMonth(date)))
+                                                                    .font(.caption)
+                                                                    .foregroundColor(.gray)
+                                                            }
                                                         }
                                                     } else {
                                                         VStack {
@@ -72,10 +73,12 @@ struct ContentView: View {
                                                                 .frame(width: 35, height: 35)
                                                                 .background(Color.clear)
 
-                                                            // 显示农历日期（仅日期或月份和日期）
-                                                            Text(getChineseLunarDay(for: date, showMonth: isFirstDayOfChineseMonth(date)))
-                                                                .font(.caption)
-                                                                .foregroundColor(.gray)
+                                                            if isShowChineseCalendar {
+                                                                // 显示农历日期（仅日期或月份和日期）
+                                                                Text(getChineseLunarDay(for: date, showMonth: isFirstDayOfChineseMonth(date)))
+                                                                    .font(.caption)
+                                                                    .foregroundColor(.gray)
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -150,13 +153,28 @@ struct ContentView: View {
 
     // 获取星期的符号（从星期日到星期六）
     func getWeekdaySymbol(for index: Int) -> String {
-        let chineseWeekdays = ["日", "一", "二", "三", "四", "五", "六"]
+        var chineseWeekdays = ["日", "一", "二", "三", "四", "五", "六"]
+        if isShowChineseCalendar {
+            
+        }
+        else
+        {
+            chineseWeekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
+        }
+      
         return "" + chineseWeekdays[index]
     }
 
     // 获取月份名称
     func getMonthTitle(date: Date) -> String {
-        let chineseMonths = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+        var chineseMonths = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+        if isShowChineseCalendar {
+            
+        }
+        else
+        {
+            chineseMonths = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+        }
         let month = Calendar.current.component(.month, from: date)
         return chineseMonths[month - 1]
     }
