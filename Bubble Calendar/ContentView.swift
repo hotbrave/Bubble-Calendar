@@ -26,7 +26,7 @@ struct ContentView: View {
                         .foregroundColor(index == 0 ? .red : .primary) // 周日标为红色
                 }
             }
-            .padding(.top)
+            .padding(20)
 
             ScrollViewReader { proxy in
                 ScrollView {
@@ -92,7 +92,7 @@ struct ContentView: View {
                             }
                         }
                     }
-                    .padding()
+                    
                 }
                 .onAppear {
                     scrollViewProxy = proxy
@@ -136,7 +136,7 @@ struct ContentView: View {
                         scrollViewProxy?.scrollTo("today", anchor: .center)
                     }
                 }) {
-                    Text("滚动到今天")
+                    Text("今天")
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)
@@ -151,7 +151,7 @@ struct ContentView: View {
     // 获取星期的符号（从星期日到星期六）
     func getWeekdaySymbol(for index: Int) -> String {
         let chineseWeekdays = ["日", "一", "二", "三", "四", "五", "六"]
-        return "周" + chineseWeekdays[index]
+        return "" + chineseWeekdays[index]
     }
 
     // 获取月份名称
