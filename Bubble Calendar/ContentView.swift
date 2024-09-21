@@ -139,7 +139,8 @@ struct ContentView: View {
                         scrollViewProxy?.scrollTo("today", anchor: .center)
                     }
                 }) {
-                    Text("今天")
+                    
+                    Text("today")
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)
