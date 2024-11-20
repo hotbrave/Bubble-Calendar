@@ -10,6 +10,7 @@ struct ContentView: View {
     @State private var scrollViewProxy: ScrollViewProxy? = nil  // 用于滚动到特定位置
     @State private var today = Date()  // 当前日期
     @State private var isShowChineseCalendar = false  // 标记是否是首次启动
+    @State private var isSettingsPresented = false  // 标记设置界面是否显示
     
     @Environment(\.scenePhase) var scenePhase // 监听应用的场景状态
 
@@ -124,6 +125,24 @@ struct ContentView: View {
             }
 
             HStack {
+                
+                // 左下角菜单按钮
+                    Button(action: {
+                        isSettingsPresented = true
+                    }) {
+                        Image(systemName: "gear")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .padding()
+                            .background(Color.blue.opacity(0.2))
+                            .clipShape(Circle())
+                    }
+                    .sheet(isPresented: $isSettingsPresented) {
+                        SettingsView(isShowChineseCalendar: $isShowChineseCalendar)
+                    }
+                    Spacer()
+            ////
+                
                 Spacer()
 
                 // 滚动到今天的按钮
@@ -151,8 +170,25 @@ struct ContentView: View {
             }
 
             .padding()
+            
+
         }
     }
+    
+    // SettingsView: 设置界面
+    struct SettingsView: View {
+        @Binding var isShowChineseCalendar: Bool
+        
+        var body: some View {
+            NavigationView {
+                Form {
+                    Toggle("显示农历", isOn: $isShowChineseCalendar)
+                }
+                .navigationTitle("设置")
+            }
+        }
+    }
+
 
     // 获取星期的符号（从星期日到星期六）
     func getWeekdaySymbol(for index: Int) -> String {
