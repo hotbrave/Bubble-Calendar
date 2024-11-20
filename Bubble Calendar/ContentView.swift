@@ -175,19 +175,7 @@ struct ContentView: View {
         }
     }
     
-    // SettingsView: 设置界面
-    struct SettingsView: View {
-        @Binding var isShowChineseCalendar: Bool
-        
-        var body: some View {
-            NavigationView {
-                Form {
-                    Toggle("显示农历", isOn: $isShowChineseCalendar)
-                }
-                .navigationTitle("设置")
-            }
-        }
-    }
+
 
 
     // 获取星期的符号（从星期日到星期六）
