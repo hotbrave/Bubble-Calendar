@@ -125,21 +125,21 @@ struct ContentView: View {
             }
 
             HStack {
-                
                 // 左下角菜单按钮
-                    Button(action: {
-                        isSettingsPresented = true
-                    }) {
-                        Image(systemName: "gear")
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .padding()
-                            .background(Color.blue.opacity(0.2))
-                            .clipShape(Circle())
-                    }
-                    .sheet(isPresented: $isSettingsPresented) {
-                        SettingsView(isShowChineseCalendar: $isShowChineseCalendar)
-                    }
+                Button(action: {
+                    isSettingsPresented = true
+                }) {
+                    Image(systemName: "gear")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .padding()
+                        .background(Color.blue.opacity(0.2))
+                        .clipShape(Circle())
+                }
+                // **修改部分：设置界面以全屏模式弹出**
+                .fullScreenCover(isPresented: $isSettingsPresented) {
+                    SettingsView(isShowChineseCalendar: $isShowChineseCalendar, isPresented: $isSettingsPresented)
+                }
                     Spacer()
             ////
                 
