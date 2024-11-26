@@ -26,10 +26,14 @@ struct CountdownView: View {
                             HStack {
                                 Text("\(countdown.name)")
                                     .font(.headline)
+                                    .foregroundColor(textColor(for: countdown.targetDate))
                                 Spacer()
                                 Text(displayText(for: countdown.targetDate))
                                     .foregroundColor(.blue)
                             }
+                            .padding()
+                            .background(rowBackgroundColor(for: countdown.targetDate))
+                            .cornerRadius(10)
                         }
                         .onDelete(perform: deleteCountdown) // 添加删除功能
                     }
@@ -84,6 +88,36 @@ struct CountdownView: View {
             }
         }
         return ""
+    }
+
+    // 返回文字颜色
+    private func textColor(for date: Date) -> Color {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let target = calendar.startOfDay(for: date)
+
+        if target < today {
+            return .gray // 过去的日期
+        } else if target == today {
+            return .blue // 今天的日期
+        } else {
+            return .green // 将来的日期
+        }
+    }
+
+    // 返回行背景颜色
+    private func rowBackgroundColor(for date: Date) -> Color {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let target = calendar.startOfDay(for: date)
+
+        if target < today {
+            return Color.gray.opacity(0.2) // 过去的日期
+        } else if target == today {
+            return Color.blue.opacity(0.2) // 今天的日期
+        } else {
+            return Color.green.opacity(0.2) // 将来的日期
+        }
     }
     
     // 添加倒计时
