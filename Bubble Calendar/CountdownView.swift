@@ -31,6 +31,7 @@ struct CountdownView: View {
                                     .foregroundColor(.blue)
                             }
                         }
+                        .onDelete(perform: deleteCountdown) // 添加删除功能
                     }
                 }
                 Spacer()
@@ -74,7 +75,13 @@ struct CountdownView: View {
         countdowns.insert(countdown, at: 0) // 添加到列表顶部
         saveCountdowns()
     }
-
+    
+    // 删除倒计时
+    private func deleteCountdown(at offsets: IndexSet) {
+        countdowns.remove(atOffsets: offsets) // 从列表中删除
+        saveCountdowns() // 保存更新后的列表
+    }
+    
     // 保存倒计时
     private func saveCountdowns() {
         storage.save(countdowns)
