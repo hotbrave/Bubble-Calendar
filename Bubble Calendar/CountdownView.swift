@@ -27,7 +27,7 @@ struct CountdownView: View {
                                 Text("\(countdown.name)")
                                     .font(.headline)
                                 Spacer()
-                                Text("还有 \(daysRemaining(until: countdown.targetDate)) 天")
+                                Text(displayText(for: countdown.targetDate))
                                     .foregroundColor(.blue)
                             }
                         }
@@ -68,7 +68,24 @@ struct CountdownView: View {
         let components = calendar.dateComponents([.day], from: today, to: target)
         return max(components.day ?? 0, 0)
     }
+    
+    // 显示倒计时文本
+    private func displayText(for date: Date) -> String {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let target = calendar.startOfDay(for: date)
+        let components = calendar.dateComponents([.day], from: today, to: target)
 
+        if let days = components.day {
+            if days >= 0 {
+                return "还有 \(days) 天"
+            } else {
+                return "已经 \(abs(days)) 天"
+            }
+        }
+        return ""
+    }
+    
     // 添加倒计时
     private func addCountdown(name: String, date: Date) {
         let countdown = Countdown(name: name, targetDate: date)
