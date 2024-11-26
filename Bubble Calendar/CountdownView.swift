@@ -22,7 +22,7 @@ struct CountdownView: View {
                         .padding()
                 } else {
                     List {
-                        ForEach(countdowns) { countdown in
+                        ForEach(sortedCountdowns()) { countdown in
                             HStack {
                                 Text("\(countdown.name)")
                                     .font(.headline)
@@ -117,6 +117,43 @@ struct CountdownView: View {
             return Color.blue.opacity(0.2) // 今天的日期
         } else {
             return Color.green.opacity(0.2) // 将来的日期
+        }
+    }
+    
+    // 按照需求排序倒计时
+    private func sortedCountdowns() -> [Countdown] {
+        let today = Calendar.current.startOfDay(for: Date())
+        return countdowns.sorted { countdown1, countdown2 in
+            let date1 = Calendar.current.startOfDay(for: countdown1.targetDate)
+            let date2 = Calendar.current.startOfDay(for: countdown2.targetDate)
+
+            // 今天的倒计时最优先
+            if date1 == today {
+                return true
+            }
+            if date2 == today {
+                return false
+            }
+
+            // 将来的倒计时优先于过去的倒计时
+            if date1 >= today && date2 < today {
+                return true
+            }
+            if date1 < today && date2 >= today {
+                return false
+            }
+
+            // 对于将来的倒计时，按时间升序排序
+            if date1 >= today && date2 >= today {
+                return date1 < date2
+            }
+
+            // 对于过去的倒计时，按时间降序排序
+            if date1 < today && date2 < today {
+                return date1 > date2
+            }
+
+            return false
         }
     }
     
