@@ -8,9 +8,8 @@ import SwiftUI
 
 struct AddCountdownView: View {
     @Environment(\.presentationMode) private var presentationMode // 返回日期倒计时界面的控制
-    @State private var countdownName: String = "默认倒计时" // 倒计时名称，默认值
+    @State private var countdownName: String = "" // 倒计时名称
     @State private var targetDateComponents: DateComponents // 默认倒计时日期
-    @State private var isEditing: Bool = false // 标记是否正在编辑名称
     let onSave: (String, Date) -> Void // 保存时的回调
 
     init(onSave: @escaping (String, Date) -> Void) {
@@ -27,12 +26,11 @@ struct AddCountdownView: View {
                     Section(header: Text("倒计时名称")) {
                         TextField("请输入倒计时名称", text: $countdownName)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .onTapGesture {
-                                if !isEditing {
-                                    countdownName = "" // 第一次点击清空默认值
-                                    isEditing = true
-                                }
-                            }
+                        if countdownName.isEmpty {
+                            Text("名称不能为空")
+                                .font(.caption)
+                                .foregroundColor(.red)
+                        }
                     }
 
                     // 倒计时日期选择
@@ -54,10 +52,13 @@ struct AddCountdownView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("保存") {
+                    Button(action: {
                         saveCountdown()
+                    }) {
+                        Text("保存")
+                            .foregroundColor(countdownName.isEmpty ? .gray : .blue)
                     }
-                    .disabled(countdownName.isEmpty) // 禁用按钮如果名称为空
+                    .disabled(countdownName.isEmpty) // 禁用逻辑
                 }
             }
         }
@@ -69,8 +70,7 @@ struct AddCountdownView: View {
 
         // 转换日期组件为日期对象
         if let date = calendar.date(from: targetDateComponents) {
-            let finalName = countdownName.isEmpty ? "默认倒计时" : countdownName
-            onSave(finalName, date) // 回调保存
+            onSave(countdownName, date) // 回调保存
         }
 
         // 返回日期倒计时界面
@@ -82,5 +82,8 @@ struct AddCountdownView: View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
+
+
+
 
  
