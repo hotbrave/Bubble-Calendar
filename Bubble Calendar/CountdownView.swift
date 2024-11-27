@@ -9,6 +9,8 @@ import SwiftUI
 struct CountdownView: View {
     @State private var countdowns: [Countdown] = [] // 倒计时列表
     @State private var isAddCountdownPresented = false // 是否展示添加倒计时界面
+    @State private var isEditing: Bool = false // 是否处于批量删除模式
+    @State private var selectedCountdowns: Set<UUID> = [] // 已选择的倒计时
     @Environment(\.presentationMode) private var presentationMode // 返回主界面的控制
     private let storage = CountdownStorage() // 倒计时存储管理器
 
@@ -21,7 +23,7 @@ struct CountdownView: View {
                         .foregroundColor(.gray)
                         .padding()
                 } else {
-                    List {
+                    List(selection: $selectedCountdowns) {
                         ForEach(sortedCountdowns()) { countdown in
                             HStack {
                                 Text("\(countdown.name)")
@@ -29,14 +31,15 @@ struct CountdownView: View {
                                     .foregroundColor(textColor(for: countdown.targetDate))
                                 Spacer()
                                 Text(displayText(for: countdown.targetDate))
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(textColor(for: countdown.targetDate))
                             }
                             .padding()
                             .background(rowBackgroundColor(for: countdown.targetDate))
                             .cornerRadius(10)
                         }
-                        .onDelete(perform: deleteCountdown) // 添加删除功能
+                        //.onDelete(perform: deleteCountdown) // 添加删除功能
                     }
+                    .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
                 }
                 Spacer()
             }
@@ -48,10 +51,24 @@ struct CountdownView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        isAddCountdownPresented = true
-                    }) {
-                        Image(systemName: "plus")
+                    if isEditing {
+                        Button("删除") {
+                            deleteSelectedCountdowns()
+                        }
+                        .disabled(selectedCountdowns.isEmpty) // 如果未选择任何项，禁用删除按钮
+                    } else {
+                        HStack {
+                            Button(action: {
+                                isAddCountdownPresented = true
+                            }) {
+                                Image(systemName: "plus")
+                            }
+                            Button(action: {
+                                isEditing = true // 启用批量删除模式
+                            }) {
+                                Image(systemName: "trash")
+                            }
+                        }
                     }
                 }
             }
@@ -164,12 +181,20 @@ struct CountdownView: View {
         saveCountdowns()
     }
     
+    // 删除选中的倒计时
+    private func deleteSelectedCountdowns() {
+        countdowns.removeAll { selectedCountdowns.contains($0.id) }
+        selectedCountdowns.removeAll() // 清空选择的项
+        isEditing = false // 退出批量删除模式
+        saveCountdowns()
+    }
+    /*
     // 删除倒计时
     private func deleteCountdown(at offsets: IndexSet) {
         countdowns.remove(atOffsets: offsets) // 从列表中删除
         saveCountdowns() // 保存更新后的列表
     }
-    
+    */
     // 保存倒计时
     private func saveCountdowns() {
         storage.save(countdowns)
