@@ -17,7 +17,11 @@
         }
       }
     },
+    "%lld" : {
+
+    },
     "%lld 年" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -28,6 +32,7 @@
       }
     },
     "%lld 日" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -38,6 +43,7 @@
       }
     },
     "%lld 月" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -57,6 +63,9 @@
         }
       }
     },
+    "Day" : {
+
+    },
     "Interval" : {
       "localizations" : {
         "zh-Hans" : {
@@ -66,6 +75,9 @@
           }
         }
       }
+    },
+    "Month" : {
+
     },
     "passed_days" : {
       "extractionState" : "manual",
@@ -121,6 +133,9 @@
         }
       }
     },
+    "Year" : {
+
+    },
     "保存" : {
       "localizations" : {
         "en" : {
@@ -168,6 +183,7 @@
       }
     },
     "年份" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -178,6 +194,7 @@
       }
     },
     "日期" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -238,6 +255,7 @@
       }
     },
     "月份" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
