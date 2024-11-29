@@ -26,7 +26,7 @@ struct ContentView: View {
                     Text(getWeekdaySymbol(for: index))
                         .font(.headline)
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(index == 0 || index == 6 ? Color.indigo : .primary) // 周日标为红色
+                        .foregroundColor(index == 0 || index == 6 ? ColorConfig.ThemeColor : .primary) // 周日标为红色
                 }
             }
             .padding(20)
@@ -57,7 +57,7 @@ struct ContentView: View {
                                                                 .font(.title2)
                                                                 .foregroundColor(.white)
                                                                 .frame(width: 35, height: 35)
-                                                                .background(Color.indigo)
+                                                                .background(ColorConfig.ThemeColor)
                                                                 .cornerRadius(5)
                                                                 .id("today")  // 给当天日期设置 ID
                                                             let _ = print("today is ready")
@@ -138,11 +138,11 @@ struct ContentView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundColor(Color.indigo) // 更柔和的蓝色
+                            .foregroundColor(ColorConfig.ThemeColor) // 更柔和的蓝色
                         Text("Settings")
                             .font(.caption)
                             //.foregroundColor(.primary)
-                            .foregroundColor(Color.indigo) // 更柔和的蓝色
+                            .foregroundColor(ColorConfig.ThemeColor) // 更柔和的蓝色
                     }
                 }
                 .fullScreenCover(isPresented: $isSettingsPresented) {
@@ -160,11 +160,11 @@ struct ContentView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundColor(Color.indigo) // 更柔和的蓝色
+                            .foregroundColor(ColorConfig.ThemeColor) // 更柔和的蓝色
                         Text("Countdown")
                             .font(.caption)
                             //.foregroundColor(.primary)
-                            .foregroundColor(Color.indigo) // 更柔和的蓝色
+                            .foregroundColor(ColorConfig.ThemeColor) // 更柔和的蓝色
                     }
                 }
                 .sheet(isPresented: $isCountdownPresented) {
@@ -182,11 +182,11 @@ struct ContentView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundColor(Color.indigo) // 更柔和的蓝色
+                            .foregroundColor(ColorConfig.ThemeColor) // 更柔和的蓝色
                         Text("Interval")
                             .font(.caption)
                             //.foregroundColor(.primary)
-                            .foregroundColor(Color.indigo) // 更柔和的蓝色
+                            .foregroundColor(ColorConfig.ThemeColor) // 更柔和的蓝色
                     }
                 }
                 .sheet(isPresented: $isIntervalCalculatorPresented) {
@@ -213,11 +213,11 @@ struct ContentView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundColor(Color.indigo) // 更柔和的蓝色
+                            .foregroundColor(ColorConfig.ThemeColor) // 更柔和的蓝色
                         Text("Today")
                             .font(.caption)
                             //.foregroundColor(.primary)
-                            .foregroundColor(Color.indigo) // 更柔和的蓝色
+                            .foregroundColor(ColorConfig.ThemeColor) // 更柔和的蓝色
                     }
                 }
                 
@@ -225,14 +225,13 @@ struct ContentView: View {
             }
             .frame(height: 10)
             .padding()
-            
-            
-            
         }
     }
     
-    
-    
+    struct ColorConfig {
+        static let ThemeColor = Color.indigo         // 主题色调
+    }
+
     
     // 获取星期的符号（从星期日到星期六）
     func getWeekdaySymbol(for index: Int) -> String {
