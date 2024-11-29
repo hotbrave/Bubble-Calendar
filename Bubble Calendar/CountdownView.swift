@@ -99,9 +99,11 @@ struct CountdownView: View {
         
         if let days = components.day {
             if days >= 0 {
-                return "还有 \(days) 天"
+                //return "还有 \(days) 天"
+                return String.localizedStringWithFormat(NSLocalizedString("remaining_days", comment: ""), days)
             } else {
-                return "已经 \(abs(days)) 天"
+                //return "已经 \(abs(days)) 天"
+                return String(format: NSLocalizedString("passed_days", comment: "Passed days message"), abs(days))
             }
         }
         return ""
