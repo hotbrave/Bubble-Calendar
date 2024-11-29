@@ -127,56 +127,69 @@ struct ContentView: View {
             }
             
             HStack {
-                // 左下角菜单按钮
+                Spacer()
+                
+                // 设置按钮
                 Button(action: {
                     isSettingsPresented = true
                 }) {
-                    Image(systemName: "gear")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .padding()
-                        .background(Color.blue.opacity(0.2))
-                        .clipShape(Circle())
+                    VStack {
+                        Image(systemName: "gear")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                        Text("Settings")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
                 }
-                // **修改部分：设置界面以全屏模式弹出**
                 .fullScreenCover(isPresented: $isSettingsPresented) {
                     SettingsView(isShowChineseCalendar: $isShowChineseCalendar, isPresented: $isSettingsPresented)
                 }
-                Spacer()
-                ////
-                // 日期倒计时功能按钮
-                                Button(action: {
-                                    isCountdownPresented = true
-                                }) {
-                                    Text("日期倒计时")
-                                        .padding()
-                                        .background(Color.blue)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(10)
-                                }
-                                .sheet(isPresented: $isCountdownPresented) {
-                                    CountdownView()
-                                }
-
-                                Spacer()
-
-                                // 日期间隔计算功能按钮
-                                Button(action: {
-                                    isIntervalCalculatorPresented = true
-                                }) {
-                                    Text("日期间隔计算")
-                                        .padding()
-                                        .background(Color.green)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(10)
-                                }
-                                .sheet(isPresented: $isIntervalCalculatorPresented) {
-                                    IntervalCalculatorView()
-                                }
-
+                
                 Spacer()
                 
-                // 滚动到今天的按钮
+                // 日期倒计时按钮
+                Button(action: {
+                    isCountdownPresented = true
+                }) {
+                    VStack {
+                        Image(systemName: "hourglass")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                        Text("Countdown")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                }
+                .sheet(isPresented: $isCountdownPresented) {
+                    CountdownView()
+                }
+                
+                Spacer()
+                
+                // 日期间隔计算按钮
+                Button(action: {
+                    isIntervalCalculatorPresented = true
+                }) {
+                    VStack {
+                        Image(systemName: "calendar.badge.minus")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                        Text("Interval")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
+                }
+                .sheet(isPresented: $isIntervalCalculatorPresented) {
+                    IntervalCalculatorView()
+                }
+                
+                Spacer()
+                
+                // 滚动到今天按钮
                 Button(action: {
                     let today = Date()
                     let targetMonthID = getMonthID(for: today)  // 获取今天所在月份的 ID
@@ -189,18 +202,21 @@ struct ContentView: View {
                         scrollViewProxy?.scrollTo("today", anchor: .center)
                     }
                 }) {
-                    
-                    Text("Today")
-                        .padding()
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .clipShape(Circle()) // 使按钮为圆形
-                        .cornerRadius(10)
-                        .shadow(radius: 5) // 添加阴影
+                    VStack {
+                        Image(systemName: "calendar.circle")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 25, height: 25)
+                        Text("Today")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                    }
                 }
+                
+                Spacer()
             }
-            
             .padding()
+            
             
             
         }
