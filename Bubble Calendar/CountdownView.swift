@@ -13,7 +13,7 @@ struct CountdownView: View {
     @State private var selectedCountdowns: Set<UUID> = [] // 已选择的倒计时
     @Environment(\.presentationMode) private var presentationMode // 返回主界面的控制
     private let storage = CountdownStorage() // 倒计时存储管理器
-
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -80,7 +80,7 @@ struct CountdownView: View {
             }
         }
     }
-
+    
     // 计算剩余天数
     private func daysRemaining(until date: Date) -> Int {
         let calendar = Calendar.current
@@ -96,7 +96,7 @@ struct CountdownView: View {
         let today = calendar.startOfDay(for: Date())
         let target = calendar.startOfDay(for: date)
         let components = calendar.dateComponents([.day], from: today, to: target)
-
+        
         if let days = components.day {
             if days >= 0 {
                 return "还有 \(days) 天"
@@ -106,13 +106,13 @@ struct CountdownView: View {
         }
         return ""
     }
-
+    
     // 返回文字颜色
     private func textColor(for date: Date) -> Color {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         let target = calendar.startOfDay(for: date)
-
+        
         if target < today {
             return .gray // 过去的日期
         } else if target == today {
@@ -121,13 +121,13 @@ struct CountdownView: View {
             return .green // 将来的日期
         }
     }
-
+    
     // 返回行背景颜色
     private func rowBackgroundColor(for date: Date) -> Color {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         let target = calendar.startOfDay(for: date)
-
+        
         if target < today {
             return Color.gray.opacity(0.2) // 过去的日期
         } else if target == today {
@@ -143,7 +143,7 @@ struct CountdownView: View {
         return countdowns.sorted { countdown1, countdown2 in
             let date1 = Calendar.current.startOfDay(for: countdown1.targetDate)
             let date2 = Calendar.current.startOfDay(for: countdown2.targetDate)
-
+            
             // 今天的倒计时最优先
             if date1 == today {
                 return true
@@ -151,7 +151,7 @@ struct CountdownView: View {
             if date2 == today {
                 return false
             }
-
+            
             // 将来的倒计时优先于过去的倒计时
             if date1 >= today && date2 < today {
                 return true
@@ -159,17 +159,17 @@ struct CountdownView: View {
             if date1 < today && date2 >= today {
                 return false
             }
-
+            
             // 对于将来的倒计时，按时间升序排序
             if date1 >= today && date2 >= today {
                 return date1 < date2
             }
-
+            
             // 对于过去的倒计时，按时间降序排序
             if date1 < today && date2 < today {
                 return date1 > date2
             }
-
+            
             return false
         }
     }
@@ -189,17 +189,17 @@ struct CountdownView: View {
         saveCountdowns()
     }
     /*
-    // 删除倒计时
-    private func deleteCountdown(at offsets: IndexSet) {
-        countdowns.remove(atOffsets: offsets) // 从列表中删除
-        saveCountdowns() // 保存更新后的列表
-    }
-    */
+     // 删除倒计时
+     private func deleteCountdown(at offsets: IndexSet) {
+     countdowns.remove(atOffsets: offsets) // 从列表中删除
+     saveCountdowns() // 保存更新后的列表
+     }
+     */
     // 保存倒计时
     private func saveCountdowns() {
         storage.save(countdowns)
     }
-
+    
     // 加载倒计时
     private func loadCountdowns() {
         countdowns = storage.load()
@@ -207,21 +207,21 @@ struct CountdownView: View {
 }
 
 struct Countdown: Codable, Identifiable {
-    let id: UUID = UUID() // 每个倒计时的唯一标识符
+    var id: UUID = UUID() // 每个倒计时的唯一标识符
     let name: String // 倒计时名称
     let targetDate: Date // 倒计时目标日期
 }
 
 class CountdownStorage {
     private let storageKey = "Countdowns"
-
+    
     // 保存倒计时列表到 UserDefaults
     func save(_ countdowns: [Countdown]) {
         if let encoded = try? JSONEncoder().encode(countdowns) {
             UserDefaults.standard.set(encoded, forKey: storageKey)
         }
     }
-
+    
     // 从 UserDefaults 加载倒计时列表
     func load() -> [Countdown] {
         if let data = UserDefaults.standard.data(forKey: storageKey),
