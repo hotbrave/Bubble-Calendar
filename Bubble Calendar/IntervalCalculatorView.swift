@@ -44,7 +44,7 @@ struct IntervalCalculatorView: View {
                     Text("计算日期间隔")
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.green)
+                        .background(Color.indigo )
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }

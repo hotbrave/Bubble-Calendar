@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var isIntervalCalculatorPresented = false // 标记是否展示日期间隔计算界面
     
     @Environment(\.scenePhase) var scenePhase // 监听应用的场景状态
+    @Environment(\.colorScheme) var colorScheme
     
     let columns = Array(repeating: GridItem(.flexible()), count: 7) // 每行显示 7 列，类似日历布局
     
@@ -224,9 +225,31 @@ struct ContentView: View {
                 
                 Spacer()
             }
-            .frame(height: 10)
+            .frame(height: 45)
             .padding()
+            .background(
+                Group {
+                    if colorScheme == .light {
+                        Color(.systemGray6) // 淡灰色背景
+                    } else {
+                        Color.black // 黑色背景
+                    }
+                }
+            )
+            
+            .overlay(
+                Group {
+                    if colorScheme == .light {
+                        Divider()
+                            .background(Color(.systemGray4)) // 灰色细线
+                            .frame(height: 1)
+                    }
+                },
+                alignment: .top
+            )
+           
         }
+        .edgesIgnoringSafeArea(.bottom) // 让背景扩展到屏幕底部
     }
     
     struct ColorConfig {
