@@ -128,7 +128,7 @@ struct ContentView: View {
             
             HStack {
                 Spacer()
-                
+                /*
                 // 设置按钮
                 Button(action: {
                     isSettingsPresented = true
@@ -150,6 +150,7 @@ struct ContentView: View {
                 }
                 
                 Spacer()
+                */
                 
                 // 日期倒计时按钮
                 Button(action: {

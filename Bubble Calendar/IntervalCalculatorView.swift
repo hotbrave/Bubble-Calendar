@@ -59,8 +59,8 @@ struct IntervalCalculatorView: View {
 
                 Spacer()
             }
-            .padding()
-            .navigationTitle("日期间隔计算")
+            //.padding()
+            //.navigationTitle("日期间隔计算")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("返回") {
